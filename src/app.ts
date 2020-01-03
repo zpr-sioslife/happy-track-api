@@ -1,53 +1,41 @@
 import cors from 'cors'
 import express from 'express'
-import routes from './api'
 import mongoose from 'mongoose'
-import bluebird from 'bluebird'
-import bodyParser from 'body-parser'
-import session from 'express-session'
-import mongo from 'connect-mongo'
-import {MONGODB_URI, SESSION_SECRET} from './util/secrets'
+import {MONGODB_URI} from './util/secrets'
+import routes from './routes'
 
-const MongoStore = mongo(session)
+class App {
+  public express: express.Application
 
-// mongo connection
-const mongoUrl = MONGODB_URI
-mongoose.Promise = bluebird
+  public constructor() {
+    this.express = express()
 
-mongoose
-  .connect(mongoUrl, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    /** ready to use. The `mongoose.connect()` promise resolves to undefined. */
-  })
-  .catch(err => {
-    console.log(
-      'MongoDB connection error. Please make sure MongoDB is running. ' + err,
-    )
-    process.exit()
-  })
+    this.config()
+    this.middlewares()
+    this.database()
+    this.routes()
+  }
 
-//express config
-const app = express()
+  private config(): void {
+    this.express.set('port', process.env.PORT || 3000)
+  }
 
-app.set('port', process.env.PORT || 3000)
-app.use(bodyParser.json())
-app.use(
-  session({
-    resave: true,
-    saveUninitialized: true,
-    secret: SESSION_SECRET,
-    store: new MongoStore({
-      url: mongoUrl,
-      autoReconnect: true,
-    }),
-  }),
-)
+  private middlewares(): void {
+    this.express.use(express.json())
+    this.express.use(cors())
+  }
 
-app.use(cors())
-app.use(routes.initialize())
+  private database(): void {
+    mongoose.connect(MONGODB_URI, {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useUnifiedTopology: true,
+    })
+  }
 
-export default app
+  private routes(): void {
+    this.express.use(routes)
+  }
+}
+
+export default new App().express
