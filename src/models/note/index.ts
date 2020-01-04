@@ -1,6 +1,6 @@
-import mongoose from 'mongoose'
+import {Schema, model} from 'mongoose'
 
-const NoteSchema = new mongoose.Schema(
+const NoteSchema = new Schema(
   {
     title: {type: String, required: true, unique: true},
     description: {type: String, required: true, unique: true},
@@ -9,4 +9,4 @@ const NoteSchema = new mongoose.Schema(
   {timestamps: true},
 )
 
-export default mongoose.model('Note', NoteSchema)
+export default model('Note', NoteSchema)

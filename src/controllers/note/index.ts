@@ -1,11 +1,11 @@
 import {Router, Response, Request} from 'express'
-import NoteController from './controller'
+import NoteService from '../../services/note'
 
 function NoteRouter(): Router {
   const router = Router()
 
   router.route('/notes').post((req: Request, res: Response) => {
-    const noteCreated = NoteController.createNote(req.body)
+    const noteCreated = NoteService.createNote(req.body)
     return res.json(noteCreated)
   })
 
