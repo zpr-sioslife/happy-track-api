@@ -15,7 +15,6 @@ const UserSchema = new Schema(
       index: true,
     },
     password: String,
-    salt: String,
     role: {
       type: String,
       default: 'user',

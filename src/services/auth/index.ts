@@ -1,6 +1,5 @@
 import argon2 from 'argon2'
 import jwt from 'jsonwebtoken'
-import {randomBytes} from 'crypto'
 import logger from '../../util/logger'
 import {UserInputDTO, UserDTO} from 'interfaces/user'
 import UserService from '../user'
@@ -10,11 +9,9 @@ class AuthService {
     user: UserInputDTO,
   ): Promise<{user: UserDTO; token: string}> {
     try {
-      const salt = randomBytes(32)
-      const hashedPassword = await argon2.hash(user.password, {salt})
+      const hashedPassword = await argon2.hash(user.password)
       const userRecord = await UserService.createUser({
         ...user,
-        salt: salt.toString('hex'),
         password: hashedPassword,
       })
 
@@ -23,17 +20,15 @@ class AuthService {
       if (!userRecord) {
         throw new Error('User cannot be created')
       }
-      const userCreated = userRecord.toObject()
-      Reflect.deleteProperty(userCreated, 'password')
-      Reflect.deleteProperty(userCreated, 'salt')
-      return {user: userCreated, token}
+      Reflect.deleteProperty(userRecord, 'password')
+      return {user: userRecord, token}
     } catch (e) {
       logger.error(e)
       throw e
     }
   }
 
-  private generateToken(user: UserDTO) {
+  private generateToken(user: UserDTO): string {
     const today = new Date()
     const exp = new Date(today)
 
