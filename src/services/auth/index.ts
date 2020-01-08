@@ -3,11 +3,33 @@ import jwt from 'jsonwebtoken'
 import logger from '../../util/logger'
 import {UserInputDTO, UserDTO} from 'interfaces/user'
 import UserService from '../user'
+import UserModel from '../../models/user'
 
 class AuthService {
-  public async SignUp(
-    user: UserInputDTO,
+  public async SignIn(
+    email: string,
+    password: string,
   ): Promise<{user: UserDTO; token: string}> {
+    const userRecord = await UserModel.findOne({email})
+
+    if (!userRecord) {
+      throw new Error('User not registered')
+    }
+
+    const validPassword = await argon2.verify(userRecord.password, password)
+    if (validPassword) {
+      const token = this.generateToken(userRecord)
+
+      const user = userRecord.toObject()
+      delete user.password
+
+      return {user, token}
+    } else {
+      throw new Error('Invalid Password')
+    }
+  }
+
+  async SignUp(user: UserInputDTO): Promise<{user: UserDTO; token: string}> {
     try {
       const hashedPassword = await argon2.hash(user.password)
       const userRecord = await UserService.createUser({

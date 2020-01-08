@@ -21,6 +21,17 @@ function UserRouter(): Router {
         return res.json(userCreated)
       },
     )
+  router.route('/login').post(
+    async (req: Request, res: Response): Promise<Response> => {
+      const userLogged = await AuthService.SignIn(
+        req.body.email,
+        req.body.password,
+      )
+
+      return res.json(userLogged)
+    },
+  )
+
   return router
 }
 
