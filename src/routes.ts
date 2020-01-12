@@ -1,10 +1,10 @@
-import {Router} from 'express'
-import UserApi from './controllers/user'
-import HeartBeatApi from './controllers/heart-beat'
+import express from 'express'
+import userRouter from './user-module/user.router'
 
-const routes = Router()
+const routes = express.Router()
 
-routes.use(HeartBeatApi)
-routes.use(UserApi)
+/** API ROUTES */
+routes.use('/users', userRouter)
+// routes.use('/notes', noteRouter)
 
 export default routes

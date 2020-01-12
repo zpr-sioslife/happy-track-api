@@ -1,7 +1,7 @@
 import argon2 from 'argon2'
 import jwt from 'jsonwebtoken'
-import logger from '../../util/logger'
-import {UserInputDTO, UserDTO} from 'interfaces/user'
+import logger from '../../../util/logger'
+import {UserInputDTO, UserDTO} from '../../interfaces/user'
 import UserService from '../user'
 import UserModel from '../../models/user'
 

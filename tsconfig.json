@@ -1,14 +1,21 @@
 {
   "compilerOptions": {
+    // Explain every option.
+    // for app code & proj settings this is a good rule of thumb.
     "module": "commonjs",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es6",
+    "target": "ES2020",
     "noImplicitAny": true,
     "moduleResolution": "node",
     "sourceMap": true,
     "baseUrl": "./src",
-    "outDir": "dist"
+    "outDir": "dist",
+
+    // setup for @typegoose/typegoose lib
+    // Enable Class Decorators feature - https://github.com/tc39/proposal-decorators
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
   "include": ["./src/**/*"],
   "exclude": ["node_modules"]

@@ -1,41 +1,30 @@
-import cors from 'cors'
 import express from 'express'
-import mongoose from 'mongoose'
-import {MONGODB_URI} from './util/secrets'
+import cors from 'cors'
+import config from './config'
+import logger from './util/logger'
 import routes from './routes'
 
-class App {
-  public express: express.Application
+// db connection
+import './database'
 
-  public constructor() {
-    this.express = express()
+const app = express()
 
-    this.config()
-    this.middlewares()
-    this.database()
-    this.routes()
-  }
+/** MIDDLEWARES */
+app.use([
+  // Enable all Cross-origin resource sharing
+  cors(),
 
-  private config(): void {
-    this.express.set('port', process.env.PORT || 3000)
-  }
+  // support parsing of application/json type post data
+  express.json(),
 
-  private middlewares(): void {
-    this.express.use(express.json())
-    this.express.use(cors())
-  }
+  //support parsing of application/x-www-form-urlencoded post data
+  express.urlencoded({extended: true}),
 
-  private database(): void {
-    mongoose.connect(MONGODB_URI, {
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useUnifiedTopology: true,
-    })
-  }
+  // App Routing
+  routes,
+])
 
-  private routes(): void {
-    this.express.use(routes)
-  }
-}
-
-export default new App().express
+/** START SERVER */
+app.listen(config.port, () => {
+  logger.info(`Running on port ${config.port} in ${config.env} mode`)
+})

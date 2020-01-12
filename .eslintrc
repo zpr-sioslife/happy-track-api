@@ -1,6 +1,6 @@
 {
   "parserOptions": {
-    "ecmaVersion": 2019,
+    "ecmaVersion": 2020,
     "sourceType": "module"
   },
   "extends": ["eslint:recommended", "eslint-config-prettier"],
@@ -8,7 +8,7 @@
     "strict": ["error", "never"]
   },
   "env": {
-    "browser": true
+    "node": true
   },
   "overrides": [
     {
@@ -22,7 +22,11 @@
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
         "eslint-config-prettier/@typescript-eslint"
-      ]
+      ],
+      "rules": {
+        // indeciso com esta rule. off/on
+        "@typescript-eslint/explicit-function-return-type": "off"
+      }
     }
   ]
 }
