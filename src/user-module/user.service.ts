@@ -1,4 +1,4 @@
-import User from './user'
+import type User from './user'
 import UserModel from './user.model'
 
 // I'm happy with these auto types TS is defining here DocumentType<User>

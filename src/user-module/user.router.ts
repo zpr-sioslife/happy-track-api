@@ -1,11 +1,10 @@
 import express from 'express'
-import * as userCtrl from './user.controller'
+import * as UserCtrl from './user.controller'
 
-const userRouter = express.Router()
+const UserRouter = express.Router()
 
-userRouter
-  .route('/')
-  .post(userCtrl.createUser)
-  .get(userCtrl.getUsers)
+UserRouter.route('/')
+  .post(UserCtrl.createUser)
+  .get(UserCtrl.getUsers)
 
-export default userRouter
+export default UserRouter

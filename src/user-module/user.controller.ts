@@ -1,7 +1,7 @@
-import express from 'express'
+import type express from 'express'
 import argon2 from 'argon2'
 import * as UserService from './user.service'
-import User from './user'
+import type User from './user'
 
 // hmm can we refactor better ? More TS complicated?
 // For every router I have to set this ?? hmm

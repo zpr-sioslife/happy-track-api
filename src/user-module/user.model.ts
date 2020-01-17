@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import type mongoose from 'mongoose'
 import * as typegoose from '@typegoose/typegoose'
 import User from './user'
 

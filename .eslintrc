@@ -1,6 +1,6 @@
 {
   "parserOptions": {
-    "ecmaVersion": 2020,
+    "ecmaVersion": 2019,
     "sourceType": "module"
   },
   "extends": ["eslint:recommended", "eslint-config-prettier"],
@@ -25,7 +25,16 @@
       ],
       "rules": {
         // indeciso com esta rule. off/on
-        "@typescript-eslint/explicit-function-return-type": "off"
+        "@typescript-eslint/explicit-function-return-type": "off",
+
+        "no-restricted-imports": [
+          "error",
+          {
+            // Use absolute import #user-module instead of import '../../user-module'
+            "paths": ["user-module"],
+            "patterns": ["**/user-module"]
+          }
+        ]
       }
     }
   ]

@@ -1,10 +1,10 @@
 import express from 'express'
-import userRouter from './user-module/user.router'
+import {UserRouter} from '#user-module'
 
 const routes = express.Router()
 
 /** API ROUTES */
-routes.use('/users', userRouter)
+routes.use('/users', UserRouter)
 // routes.use('/notes', noteRouter)
 
 export default routes
